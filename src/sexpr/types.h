@@ -14,7 +14,7 @@ typedef struct lval {
 } lval;
 
 // Enum of possible lval types
-enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR };
+enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR, LVAL_QEXPR };
 
 // Enum of possible error types
 enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM, LERR_NOT_ENOUGH_OPERANDS };

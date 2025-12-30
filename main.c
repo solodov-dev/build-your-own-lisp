@@ -13,18 +13,21 @@ int main(int argc, char **argv) {
   mpc_parser_t *Number = mpc_new("number");
   mpc_parser_t *Symbol = mpc_new("symbol");
   mpc_parser_t *Sexpr = mpc_new("sexpr");
+  mpc_parser_t *Qexpr = mpc_new("qexpr");
   mpc_parser_t *Expr = mpc_new("expr");
   mpc_parser_t *Lispy = mpc_new("lispy");
 
   // Define them with the following language
-  mpca_lang(MPCA_LANG_DEFAULT, "                                        \
-      number : /-?[0-9]+/ ;                                             \
-      symbol : '+' | '-' | '*' | '/' | '%' | '^' | \"min\" | \"max\";   \
-      sexpr : '(' <expr>* ')' ;                                         \
-      expr : <number> | <symbol> | <sexpr> ;                            \
-      lispy : /^/ <expr>* /$/ ;                                         \
-    ",
-            Number, Symbol, Sexpr, Expr, Lispy);
+  mpca_lang(MPCA_LANG_DEFAULT, "                           \
+    number : /-?[0-9]+/ ;                                  \
+    symbol : \"list\" | \"head\" | \"tail\"                \
+           | \"join\" | \"eval\" | '+' | '-' | '*' | '/' ; \
+    sexpr  : '(' <expr>* ')' ;                             \
+    qexpr  : '{' <expr>* '}' ;                             \
+    expr   : <number> | <symbol> | <sexpr> | <qexpr> ;     \
+    lispy  : /^/ <expr>* /$/ ;                             \
+  ",
+            Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 
   // Print Version and Exit Information
   puts("Lispy Version 0.0.0.0.1");
@@ -54,7 +57,7 @@ int main(int argc, char **argv) {
     free(input);
   }
 
-  mpc_cleanup(5, Number, Symbol, Expr, Sexpr, Lispy);
+  mpc_cleanup(5, Number, Symbol, Expr, Sexpr, Qexpr, Lispy);
 
   return 0;
 }

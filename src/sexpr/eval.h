@@ -5,8 +5,6 @@
 
 lval *lval_eval_sexpr(lval *v);
 lval *lval_eval(lval *v);
-lval *builtin_op(lval *a, char *op);
-lval *lval_pop(lval *v, int i);
-lval *lval_take(lval *v, int i);
+lval *builtin(lval *a, char *func);
 
 #endif // EVAL_H

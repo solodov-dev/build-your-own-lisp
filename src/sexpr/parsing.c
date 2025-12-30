@@ -37,6 +37,15 @@ lval *lval_sexpr(void) {
   return v;
 }
 
+// Create a pointer to a new Qexpr lval
+lval *lval_qexpr(void) {
+  lval *v = malloc(sizeof(lval));
+  v->type = LVAL_QEXPR;
+  v->count = 0;
+  v->cell = NULL;
+  return v;
+}
+
 // Free memory reserverd for lval
 void lval_del(lval *v) {
   switch (v->type) {
@@ -52,6 +61,7 @@ void lval_del(lval *v) {
     break;
     // For Sexpr delete all elements inside
   case LVAL_SEXPR:
+  case LVAL_QEXPR:
     for (int i = 0; i < v->count; i++) {
       lval_del(v->cell[i]);
     }
