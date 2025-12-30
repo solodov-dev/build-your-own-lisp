@@ -1,9 +1,9 @@
-#include "src/mpc/mpc.h"
-#include "src/sexpr/eval.h"
-#include "src/sexpr/parsing.h"
-#include "src/sexpr/print.h"
-#include "src/sexpr/read.h"
-#include "src/sexpr/types.h"
+#include "mpc/mpc.h"
+#include "sexpr/eval.h"
+#include "sexpr/parsing.h"
+#include "sexpr/print.h"
+#include "sexpr/read.h"
+#include "sexpr/types.h"
 #include <editline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>

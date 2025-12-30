@@ -9,28 +9,28 @@ SRC_DIR = src
 BUILD_DIR = build
 TARGET = lispy
 
-# Source files
-SRCS = main.c \
+# Source files (all in src/ or subdirectories)
+SRCS = $(wildcard $(SRC_DIR)/*.c) \
        $(wildcard $(SRC_DIR)/mpc/*.c) \
-       $(wildcard $(SRC_DIR)/sexpr/*.c) \
+       $(wildcard $(SRC_DIR)/sexpr/*.c)
 
-# Object files (replace .c with .o and add build directory)
-OBJS = $(SRCS:%.c=$(BUILD_DIR)/%.o)
+# Object files
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 # Default target
 all: $(BUILD_DIR) $(TARGET)
 
 # Create build directory structure
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)/$(SRC_DIR)/mpc
-	mkdir -p $(BUILD_DIR)/$(SRC_DIR)/sexpr
+	mkdir -p $(BUILD_DIR)/mpc
+	mkdir -p $(BUILD_DIR)/sexpr
 
 # Link object files
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 # Compile C files to object files
-$(BUILD_DIR)/%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean
@@ -43,10 +43,10 @@ run: $(TARGET)
 
 # Debug build
 debug: CFLAGS += -g -O0
-debug: $(TARGET)
+debug: $(BUILD_DIR) $(TARGET)
 
 # Release build
 release: CFLAGS += -O2 -DNDEBUG
-release: $(TARGET)
+release: $(BUILD_DIR) $(TARGET)
 
 .PHONY: all clean run debug release
